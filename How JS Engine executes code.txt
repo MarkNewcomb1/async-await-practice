@@ -1,0 +1,36 @@
+There's two data structures here:
+
+1. Call Stack
+2. Task Queue (Message Queue)
+
+
+Call Stack
+When a function starts executing, a new execution context is created and placed on top of the call stack. When this function finishes executing and returns the exectuion context associated
+with this function, it's removed from the call stack. 
+
+Task Queue
+This contains a list of tasks to be processed. Each task refers to a function which needs to be executed at some point in time. There's different ways of 
+addings tasks to this queue - in Node.js, when you're reading something from a file, a new task is added to the queue. In web browsers, tasks are added every time an event occurs
+and event listener for this event. Another way of adding a task to this queue is set a Node function. The JS engine periodically checks if there are new tasks in the queue. If there
+are some, it takes the first task and processes it. Each task in the queue is processed completely before any other task can be processed. There's a special process that checks this
+it's called the event loop. 
+
+
+In the print-4-numbers example, the JS engine starts at the first line. First, it creates the global execution context and puts it in the call stack as the first item. 
+After going through all the function declarations above, the JS engine comes to the invocation of the first print1 function. This creates a new execution context inside
+the call stack. This represent the print1 function with its arguments as well as its local variables. Then it steps into the print1 function. When the function is finished
+executing, it removes itself from the call stack. Then it steps into the print2 function, creates a new execution context with its arguments, local variables, etc. and puts it on top 
+of the call stack. 
+
+In the print2 function, there's another function inside it called getNumber2. The engine makes this new execution context, and puts it on top of the call stack. 
+Once getNumber2 is finished, it removes itself from the top of the call stack, and the pointer moves to the next line where it prints to the console. Of course, once this happens,
+print2 is finished, and it gets removed from the top of the call stack. 
+
+Stepping into print3, new execution context. It starts executing readFile. However, since this is an asynchronous function, the engine DOESN'T wait until it returns. 
+Instead, it moves on, and we step into print4. Again, new execution context is created. In the meanwhile, readFile has finished, and a new task is added to the task queue. 
+This task has a reference to the callback. The callback won't be invoked right now, because the call stack isn't empty yet. So...print4 finished, and is removed from the call stack. 
+
+Since this was the last line of our script, the global execution context is removed from the call stack. When the call stack is empty, the JS engine checks if there's something in the 
+task queue. In this case, there is one task in the queue, and it has reference to the callback function that was added in the fs.readFile method. It takes this, moves it from the 
+queue to the call stack. It executes the callback, then checks if there's anything else in the call stack. If that's empty, it'll check the task queue. When they're both empty,
+the JS engine exits. This is how JS code is being executed behind the scenes. 

@@ -14,9 +14,9 @@ function print2() {
 function print3() {
     const fs = require('fs');
     fs.readFile('./number3.txt', 'utf-8', function (err, number3) {
-        // this is a callback function - it's passed as an argument to another function
-        // (readFile in this case) and is invoked from within that function.
         console.log(number3);
+        // the callback will be executed after we receive the contents of the file. 
+        print4();
     });
     // console.log('hi from print3 method');
 }
@@ -29,4 +29,5 @@ function print4() {
 print1();
 print2();
 print3();
-print4();
+// removed it from here:
+// print4();
