@@ -47,4 +47,6 @@ calculateSquare('bad argument', function (error, result) {
     console.log(result);
 });
 
+Note: JavaScript Promises have different mechanisms for handling errors.
+
 */
