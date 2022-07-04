@@ -27,4 +27,25 @@ calcuateSquare(1)
     }).then(value => {
         console.log(value);
         return calcuateSquare(6);
+    }).then(value => {
+        console.log(value);
     })
+
+    /*
+    To handle errors, the .catch method is the same as calling
+    .then with undefined as the first argument, like 
+    myPromise.then(undefined, onRejected)
+    */
+
+calcuateSquare(1)
+    .then(value => {
+        console.log(value);
+        return calcuateSquare(2);
+    })
+    .then(value => {
+        throw new Error('Something went wrong');
+        console.log(value);
+    })
+    .catch(reason => {
+        console.log('error happened: ' + reason);
+    });
