@@ -1,0 +1,10 @@
+A Promise is actually an object that represents an eventual result of an asynchronous action. 
+
+A JavaScript Promise object has two internal properties: 
+
+1. PromiseStatus
+
+2. PromiseValue
+
+A promise can be in 1 of 3 states - pending, fulfilled, and rejected. When a promise is in "pending" status,
+the PromiseValue will be undefined. Fulfilled and rejected are fairly self-explanatory. 
